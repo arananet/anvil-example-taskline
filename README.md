@@ -1,6 +1,6 @@
 # Taskline
 
-![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue) ![License Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-green) ![OpenSpec](https://img.shields.io/badge/OpenSpec-specs-orange) TDD: tests before implementation
+![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue) ![License MIT](https://img.shields.io/badge/license-MIT-green) ![OpenSpec](https://img.shields.io/badge/OpenSpec-specs-orange) TDD: tests before implementation
 
 > "Taskline is a tiny task board API built on the ANVIL line: spec first, red tests, then the smallest implementation that turns them green."
 
@@ -39,7 +39,7 @@ Every change starts with a spec under .openspec/specs/ (OpenSpec). Update the sp
 
 ## License
 
-[Apache 2.0](LICENSE)
+[MIT](LICENSE)
 
 ---
 
