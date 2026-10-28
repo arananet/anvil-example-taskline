@@ -37,8 +37,16 @@ class TasklineTest(unittest.TestCase):
         self.assertEqual(status, 404)
     def test_s5_create_without_title_returns_400(self):
         """S5 creating a task without a title returns 400"""
+        # Missing title key
         status, _ = handle("POST", "/tasks", {}, store=self.store)
         self.assertEqual(status, 400)
+        # Empty title string through API
+        status, _ = handle("POST", "/tasks", {"title": ""}, store=self.store)
+        self.assertEqual(status, 400)
+        # Whitespace-only title through API
+        status, _ = handle("POST", "/tasks", {"title": "  "}, store=self.store)
+        self.assertEqual(status, 400)
+        # Store level validation
         with self.assertRaises(ValueError):
             self.store.add("")
     def test_s6_persistence_survives_reload(self):

@@ -1,0 +1,151 @@
+{
+  "work_order_id": "wo-gh-3",
+  "pipeline": "hotfix",
+  "title": "Test coverage gap: S5 empty and whitespace titles not covered through the API",
+  "kind": "bug",
+  "steps": [
+    {
+      "station": "intake",
+      "status": "completed",
+      "detail": "Work order normalized",
+      "duration_ms": 0.017,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-gh-3/report.json"
+      ],
+      "configured_model": "default",
+      "executed_model": null,
+      "executor": null
+    },
+    {
+      "station": "builder",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-gh-3/builder.output.md",
+      "duration_ms": 40761.09,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-gh-3/builder.output.md"
+      ],
+      "configured_model": "claude-sonnet-4-5",
+      "executed_model": null,
+      "executor": {
+        "kind": "command",
+        "detail": "python3"
+      }
+    },
+    {
+      "station": "reviewer-spec",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-gh-3/reviewer-spec.output.md; review output did not parse as a review JSON",
+      "duration_ms": 35511.95,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-gh-3/reviewer-spec.output.md"
+      ],
+      "configured_model": "claude-sonnet-4-5",
+      "executed_model": null,
+      "executor": {
+        "kind": "command",
+        "detail": "python3"
+      }
+    },
+    {
+      "station": "reviewer-security",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-gh-3/reviewer-security.output.md",
+      "duration_ms": 45903.492,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-gh-3/reviewer-security.output.md"
+      ],
+      "configured_model": "claude-sonnet-4-5",
+      "executed_model": null,
+      "executor": {
+        "kind": "command",
+        "detail": "python3"
+      }
+    },
+    {
+      "station": "approver",
+      "status": "completed",
+      "detail": "Approver verdict: approved",
+      "duration_ms": 0.037,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-gh-3/report.json"
+      ],
+      "configured_model": "default",
+      "executed_model": null,
+      "executor": null
+    },
+    {
+      "station": "triage-human",
+      "status": "completed",
+      "detail": "Human review: not_required",
+      "duration_ms": 0.011,
+      "cost": null,
+      "artifacts": [],
+      "configured_model": "default",
+      "executed_model": null,
+      "executor": null
+    },
+    {
+      "station": "deployer",
+      "status": "executed",
+      "detail": "Deploy command executed",
+      "duration_ms": 93.196,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-gh-3/deployer.output.md"
+      ],
+      "configured_model": "claude-sonnet-4-5",
+      "executed_model": null,
+      "executor": null
+    },
+    {
+      "station": "verifier",
+      "status": "executed",
+      "detail": "Verification passed for all commands",
+      "duration_ms": 62.769,
+      "cost": null,
+      "configured_model": null,
+      "executed_model": null,
+      "executor": null,
+      "artifacts": []
+    }
+  ],
+  "verdict": "approved",
+  "human_required": false,
+  "max_loopbacks": 2,
+  "loopbacks": 0,
+  "deployment_status": "deployed_verified",
+  "verify_results": [
+    {
+      "command": "sh -c 'cd deploy/$ANVIL_WORK_ORDER_ID && python3 -m unittest discover -s tests'",
+      "status": "pass",
+      "exit_code": 0,
+      "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n"
+    }
+  ],
+  "risk_hints": [],
+  "decision": {
+    "approver": {
+      "reviews_counted": [
+        {
+          "station": "reviewer-security",
+          "verdict": "pass"
+        }
+      ],
+      "reviews_expected": [
+        "reviewer-spec",
+        "reviewer-security"
+      ],
+      "rule": "All counted reviews passed."
+    },
+    "human_gate": {
+      "required": false,
+      "rule": "Verdict approved and no risk hints matched (scanned: auth, payments, data-deletion, production-deploy, secrets, publishing), so no human is required.",
+      "hints_matched": []
+    }
+  }
+}

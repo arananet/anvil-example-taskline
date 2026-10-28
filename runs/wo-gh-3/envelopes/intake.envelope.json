@@ -1,0 +1,10 @@
+{
+  "schema": "anvil/envelope@1",
+  "from_station": "intake",
+  "to_station": "builder",
+  "work_order_id": "wo-gh-3",
+  "artifact_path": "runs/wo-gh-3/report.json",
+  "status": "completed",
+  "created_at": "2026-10-28T19:24:09.507931+00:00",
+  "configured_model": "default"
+}
