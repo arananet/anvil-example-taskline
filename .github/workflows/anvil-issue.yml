@@ -3,6 +3,8 @@ name: anvil-issue
 on:
   issues:
     types: [opened, labeled]
+  repository_dispatch:
+    types: [anvil-run]
   workflow_dispatch:
     inputs:
       issue_number:
@@ -26,6 +28,7 @@ jobs:
     # seconds: skipped quickly, nothing else runs.
     if: >-
       github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'repository_dispatch' ||
       github.event.action == 'opened' ||
       (github.event.action == 'labeled' && github.event.label.name == 'anvil')
     steps:
@@ -45,27 +48,27 @@ jobs:
           esac
 
       - name: Check out this repository
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
+        if: (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch') || steps.gate.outputs.proceed == 'true'
         uses: actions/checkout@v4
 
       - name: Check out the ANVIL factory
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
+        if: (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch') || steps.gate.outputs.proceed == 'true'
         uses: actions/checkout@v4
         with:
           repository: arananet/anvil-factory
           path: .anvil-factory
 
       - name: Set up Python
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
+        if: (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch') || steps.gate.outputs.proceed == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Build the work order from the issue
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
+        if: (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch') || steps.gate.outputs.proceed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number || github.event.client_payload.issue_number }}
         run: |
           gh api "repos/${{ github.repository }}/issues/${ISSUE_NUMBER}" > issue.json
           python3 - <<'PYEOF'
@@ -89,17 +92,17 @@ jobs:
           PYEOF
 
       - name: Run the ANVIL hotfix line
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
+        if: (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch') || steps.gate.outputs.proceed == 'true'
         run: |
           PYTHONPATH=.anvil-factory python3 -m anvil.cli run . \
             --pipeline .anvil-factory/pipelines/hotfix.json \
             --work-order work-order.json
 
       - name: Comment the run report on the issue
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
+        if: (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch') || steps.gate.outputs.proceed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number || github.event.client_payload.issue_number }}
         run: |
           WO_ID="wo-gh-${ISSUE_NUMBER}"
           python3 - "$WO_ID" <<'PYEOF'
@@ -126,9 +129,9 @@ jobs:
           gh issue comment "${ISSUE_NUMBER}" --body-file comment.md
 
       - name: Upload the run directory
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
+        if: (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch') || steps.gate.outputs.proceed == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: anvil-run-${{ github.event.issue.number || inputs.issue_number }}
+          name: anvil-run-${{ github.event.issue.number || inputs.issue_number || github.event.client_payload.issue_number }}
           path: runs/
           if-no-files-found: ignore
