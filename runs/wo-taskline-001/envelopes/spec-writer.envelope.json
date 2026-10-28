@@ -1,0 +1,8 @@
+{
+  "schema": "anvil/envelope@1",
+  "from_station": "spec-writer",
+  "to_station": "test-writer",
+  "work_order_id": "wo-taskline-001",
+  "artifact_path": "runs/wo-taskline-001/spec-writer.packet.md",
+  "created_at": "2026-10-28T12:08:09.074112+00:00"
+}

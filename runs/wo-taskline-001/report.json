@@ -1,0 +1,128 @@
+{
+  "work_order_id": "wo-taskline-001",
+  "pipeline": "sdlc-default",
+  "steps": [
+    {
+      "station": "intake",
+      "status": "completed",
+      "detail": "Work order normalized",
+      "duration_ms": 0.022,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/report.json"
+      ]
+    },
+    {
+      "station": "spec-writer",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/spec-writer.packet.md",
+      "duration_ms": 0.077,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/spec-writer.packet.md"
+      ]
+    },
+    {
+      "station": "test-writer",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/test-writer.packet.md",
+      "duration_ms": 0.063,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/test-writer.packet.md"
+      ]
+    },
+    {
+      "station": "builder",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/builder.packet.md",
+      "duration_ms": 0.054,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/builder.packet.md"
+      ]
+    },
+    {
+      "station": "reviewer-spec",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/reviewer-spec.packet.md",
+      "duration_ms": 0.324,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/reviewer-spec.packet.md"
+      ]
+    },
+    {
+      "station": "reviewer-security",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/reviewer-security.packet.md",
+      "duration_ms": 0.13,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/reviewer-security.packet.md"
+      ]
+    },
+    {
+      "station": "reviewer-tests",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/reviewer-tests.packet.md",
+      "duration_ms": 0.048,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/reviewer-tests.packet.md"
+      ]
+    },
+    {
+      "station": "reviewer-architecture",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/reviewer-architecture.packet.md",
+      "duration_ms": 0.053,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/reviewer-architecture.packet.md"
+      ]
+    },
+    {
+      "station": "approver",
+      "status": "completed",
+      "detail": "Approver verdict: approved",
+      "duration_ms": 0.022,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/report.json"
+      ]
+    },
+    {
+      "station": "triage-human",
+      "status": "completed",
+      "detail": "Human review: not_required",
+      "duration_ms": 0.009,
+      "cost": null,
+      "artifacts": []
+    },
+    {
+      "station": "deployer",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/deployer.packet.md",
+      "duration_ms": 0.049,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/deployer.packet.md"
+      ]
+    },
+    {
+      "station": "observer",
+      "status": "packet_ready",
+      "detail": "Packet written to runs/wo-taskline-001/observer.packet.md",
+      "duration_ms": 0.063,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-taskline-001/observer.packet.md"
+      ]
+    }
+  ],
+  "verdict": "approved",
+  "human_required": false,
+  "max_loopbacks": 2,
+  "loopbacks": 0
+}

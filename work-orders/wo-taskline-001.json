@@ -1,0 +1,9 @@
+{
+  "id": "wo-taskline-001",
+  "kind": "feature",
+  "title": "Taskline: a tiny task board API",
+  "source": "manual",
+  "description": "A tiny task board API with create, list and complete, persisted to a JSON file.",
+  "risk_hints": [],
+  "status": "new"
+}

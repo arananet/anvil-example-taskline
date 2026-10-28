@@ -1,0 +1,8 @@
+{
+  "schema": "anvil/envelope@1",
+  "from_station": "reviewer-tests",
+  "to_station": "reviewer-architecture",
+  "work_order_id": "wo-taskline-001",
+  "artifact_path": "runs/wo-taskline-001/reviewer-tests.packet.md",
+  "created_at": "2026-10-28T12:08:09.075234+00:00"
+}

@@ -1,0 +1,7 @@
+{
+  "station": "reviewer-tests",
+  "verdict": "pass",
+  "findings": [
+    "Each scenario has one test that names it, the red run is saved in evidence/red.txt and the green run in evidence/green.txt; persistence is tested through a real reload from disk."
+  ]
+}

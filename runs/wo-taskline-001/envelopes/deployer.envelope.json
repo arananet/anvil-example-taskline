@@ -1,0 +1,8 @@
+{
+  "schema": "anvil/envelope@1",
+  "from_station": "deployer",
+  "to_station": "observer",
+  "work_order_id": "wo-taskline-001",
+  "artifact_path": "runs/wo-taskline-001/deployer.packet.md",
+  "created_at": "2026-10-28T12:08:09.075947+00:00"
+}
