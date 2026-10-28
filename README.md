@@ -26,6 +26,10 @@ This repo also demonstrates ANVIL execute mode (see the factory docs/EXECUTION.m
 
 The recorded run is runs/wo-demo-deploy-001/: every station executed, the approver approved from reviews produced in that same run, the deployer ran, verification passed, and the run ended with deployment status deployed_verified. If verification had failed, the status would be deployed_unverified with a verify-findings.md, never a success. The deploy target here is a local directory on purpose; in real use the deploy command is whatever the operator configures.
 
+## Executed runtime: Claude Code through the AI Gateway
+
+The active runtime in anvil.yaml is no longer the demonstration stand in. It now points at tools/claude_station.py, which hands each station packet to Claude Code (model claude-sonnet-4-5) running in print mode. Claude Code reaches the model through the Cloudflare AI Gateway (Anthropic endpoint, gateway supplied credentials), authenticated by the CF_AIG_TOKEN secret; no key lives in this repo. Builder and test-writer stations may edit the tree; reviewer stations get the edit tools disallowed and answer with the review JSON the approver aggregates. tools/demo_executor.py stays in the tree, and runs/wo-demo-deploy-001/ stays as the record of the plumbing demonstration it powered. The executed line runs in .github/workflows/anvil-execute.yml, which smoke tests the gateway before the line starts, commits the run evidence and the station made change back to its trigger branch, and comments the report on the issue.
+
 ## Quick start
 ```bash
 python3 -m unittest discover -s tests -v

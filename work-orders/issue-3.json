@@ -1,0 +1,9 @@
+{
+  "id": "wo-gh-3",
+  "kind": "bug",
+  "title": "Test coverage gap: S5 empty and whitespace titles not covered through the API",
+  "source": "github-issue",
+  "description": "Spec S5 in .openspec/specs/taskline-api/spec.md says creating a task without a title returns 400.\n\nVerified behavior of the implementation: the API returns 400 for an empty title and for a whitespace only title. That part honors the spec.\n\nThe gap is in the test code: tests/test_taskline.py test_s5_create_without_title_returns_400 covers only a missing title key through the API, and covers the empty string only at the store level (store.add). Nothing exercises an empty or whitespace title through the API itself, so an API regression on those inputs would pass the suite unnoticed.\n\nSuggested fix: extend test_s5 (or add a test) to post empty and whitespace titles through handle() and assert 400 for both. No implementation change is expected.\n\nNote: this is the third copy of this issue. Issues 1 and 2 were opened while bringing up the ANVIL issue workflow itself (their runs exposed a label timing issue and a label parsing bug in the workflow, both fixed). This is the canonical copy for the test gap.\n\nGitHub issue: https://github.com/arananet/anvil-example-taskline/issues/3",
+  "risk_hints": [],
+  "status": "new"
+}
