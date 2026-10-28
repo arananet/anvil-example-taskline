@@ -36,7 +36,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          LABELS=$(gh api "repos/${{ github.repository }}/issues/${ISSUE_NUMBER}" --jq '[.labels[].name] | join(",")')
+          gh api "repos/${{ github.repository }}/issues/${ISSUE_NUMBER}" > issue-gate.json
+          LABELS=$(python3 -c "import json; d = json.load(open('issue-gate.json')); print(','.join(l['name'] for l in d.get('labels', [])))")
           echo "Issue labels: ${LABELS}"
           case ",${LABELS}," in
             *,anvil,*) echo "proceed=true" >> "$GITHUB_OUTPUT" ;;
