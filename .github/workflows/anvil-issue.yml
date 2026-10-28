@@ -18,29 +18,50 @@ jobs:
   anvil:
     name: Run the ANVIL line for an issue
     runs-on: ubuntu-latest
-    # Plain opened issues without the anvil label skip quickly. The job runs
-    # for manual dispatch, for an opened issue that already carries the anvil
-    # label, and when the anvil label is added to an issue.
+    # The job starts for manual dispatch, for any opened issue, and when the
+    # anvil label is added. A gate step then checks the issue's live labels:
+    # the labels array in an opened event payload can lag behind labels given
+    # at creation time, so the job asks the API instead of trusting the
+    # payload. Issues without the anvil label end in the gate step, in
+    # seconds: skipped quickly, nothing else runs.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event.action == 'labeled' && github.event.label.name == 'anvil') ||
-      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'anvil'))
+      github.event.action == 'opened' ||
+      (github.event.action == 'labeled' && github.event.label.name == 'anvil')
     steps:
+      - name: Gate on the anvil label
+        id: gate
+        if: github.event_name == 'issues'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          LABELS=$(gh api "repos/${{ github.repository }}/issues/${ISSUE_NUMBER}" --jq '[.labels[].name] | join(",")')
+          echo "Issue labels: ${LABELS}"
+          case ",${LABELS}," in
+            *,anvil,*) echo "proceed=true" >> "$GITHUB_OUTPUT" ;;
+            *) echo "proceed=false" >> "$GITHUB_OUTPUT"; echo "No anvil label on this issue; skipping the ANVIL line." ;;
+          esac
+
       - name: Check out this repository
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
         uses: actions/checkout@v4
 
       - name: Check out the ANVIL factory
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
         uses: actions/checkout@v4
         with:
           repository: arananet/anvil-factory
           path: .anvil-factory
 
       - name: Set up Python
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Build the work order from the issue
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
@@ -67,12 +88,14 @@ jobs:
           PYEOF
 
       - name: Run the ANVIL hotfix line
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
         run: |
           PYTHONPATH=.anvil-factory python3 -m anvil.cli run . \
             --pipeline .anvil-factory/pipelines/hotfix.json \
             --work-order work-order.json
 
       - name: Comment the run report on the issue
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
@@ -102,7 +125,9 @@ jobs:
           gh issue comment "${ISSUE_NUMBER}" --body-file comment.md
 
       - name: Upload the run directory
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.proceed == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: anvil-run-${{ github.event.issue.number || inputs.issue_number }}
           path: runs/
+          if-no-files-found: ignore
