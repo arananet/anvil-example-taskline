@@ -20,6 +20,12 @@ This was a build from zero: no code existed when the work order was written, and
 8. Run: the ANVIL runner produced runs/wo-taskline-001/report.json, with a packet per agent station, envelopes and a swimlane.
 9. Gates: `anvil check . --slug taskline-api` passes the spec, TDD and review gates.
 
+## Automatic deploy and verify
+
+This repo also demonstrates ANVIL execute mode (see the factory docs/EXECUTION.md). Its anvil.yaml configures a demonstration executor (tools/demo_executor.py, a stand in that answers packets and returns pass reviews, not a model) and a deploy config: tools/deploy_copy.py copies the taskline package and its tests into deploy/<work-order-id>/, and the verification gate runs the project test suite inside the deployed copy.
+
+The recorded run is runs/wo-demo-deploy-001/: every station executed, the approver approved from reviews produced in that same run, the deployer ran, verification passed, and the run ended with deployment status deployed_verified. If verification had failed, the status would be deployed_unverified with a verify-findings.md, never a success. The deploy target here is a local directory on purpose; in real use the deploy command is whatever the operator configures.
+
 ## Quick start
 ```bash
 python3 -m unittest discover -s tests -v

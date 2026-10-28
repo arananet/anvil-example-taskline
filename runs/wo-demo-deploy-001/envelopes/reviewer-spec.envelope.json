@@ -1,0 +1,17 @@
+{
+  "schema": "anvil/envelope@1",
+  "from_station": "reviewer-spec",
+  "to_station": "reviewer-security",
+  "work_order_id": "wo-demo-deploy-001",
+  "artifact_path": "runs/wo-demo-deploy-001/reviewer-spec.output.md",
+  "status": "executed",
+  "created_at": "2026-10-28T13:45:20.300575+00:00",
+  "executor": "command",
+  "review": {
+    "station": "reviewer-spec",
+    "verdict": "pass",
+    "findings": [
+      "Demonstration review by reviewer-spec: the change matches the spec and its tests."
+    ]
+  }
+}

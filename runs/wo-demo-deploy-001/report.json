@@ -1,0 +1,147 @@
+{
+  "work_order_id": "wo-demo-deploy-001",
+  "pipeline": "sdlc-default",
+  "title": "Demonstrate automatic deploy and post deploy verification",
+  "kind": "feature",
+  "steps": [
+    {
+      "station": "intake",
+      "status": "completed",
+      "detail": "Work order normalized",
+      "duration_ms": 0.021,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/report.json"
+      ]
+    },
+    {
+      "station": "spec-writer",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/spec-writer.output.md",
+      "duration_ms": 48.017,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/spec-writer.output.md"
+      ]
+    },
+    {
+      "station": "test-writer",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/test-writer.output.md",
+      "duration_ms": 45.558,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/test-writer.output.md"
+      ]
+    },
+    {
+      "station": "builder",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/builder.output.md",
+      "duration_ms": 44.374,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/builder.output.md"
+      ]
+    },
+    {
+      "station": "reviewer-spec",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/reviewer-spec.output.md",
+      "duration_ms": 44.632,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/reviewer-spec.output.md"
+      ]
+    },
+    {
+      "station": "reviewer-security",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/reviewer-security.output.md",
+      "duration_ms": 46.834,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/reviewer-security.output.md"
+      ]
+    },
+    {
+      "station": "reviewer-tests",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/reviewer-tests.output.md",
+      "duration_ms": 77.666,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/reviewer-tests.output.md"
+      ]
+    },
+    {
+      "station": "reviewer-architecture",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/reviewer-architecture.output.md",
+      "duration_ms": 82.752,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/reviewer-architecture.output.md"
+      ]
+    },
+    {
+      "station": "approver",
+      "status": "completed",
+      "detail": "Approver verdict: approved",
+      "duration_ms": 0.044,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/report.json"
+      ]
+    },
+    {
+      "station": "triage-human",
+      "status": "completed",
+      "detail": "Human review: not_required",
+      "duration_ms": 0.014,
+      "cost": null,
+      "artifacts": []
+    },
+    {
+      "station": "deployer",
+      "status": "executed",
+      "detail": "Deploy command executed",
+      "duration_ms": 165.27,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/deployer.output.md"
+      ]
+    },
+    {
+      "station": "verifier",
+      "status": "executed",
+      "detail": "Verification passed for all commands",
+      "duration_ms": 90.331,
+      "cost": null,
+      "artifacts": []
+    },
+    {
+      "station": "observer",
+      "status": "executed",
+      "detail": "Executed by command; output written to runs/wo-demo-deploy-001/observer.output.md",
+      "duration_ms": 44.99,
+      "cost": null,
+      "artifacts": [
+        "runs/wo-demo-deploy-001/observer.output.md"
+      ]
+    }
+  ],
+  "verdict": "approved",
+  "human_required": false,
+  "max_loopbacks": 2,
+  "loopbacks": 0,
+  "deployment_status": "deployed_verified",
+  "verify_results": [
+    {
+      "command": "sh -c 'cd deploy/$ANVIL_WORK_ORDER_ID && python3 -m unittest discover -s tests'",
+      "status": "pass",
+      "exit_code": 0,
+      "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n"
+    }
+  ]
+}

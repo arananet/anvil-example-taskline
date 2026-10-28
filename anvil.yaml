@@ -118,5 +118,17 @@
       "prompt": "stations/scout/PROMPT.md",
       "tools": []
     }
+  },
+  "runtime": {
+    "kind": "command",
+    "command": "python3 tools/demo_executor.py {packet} {output}",
+    "timeout_seconds": 120
+  },
+  "deploy": {
+    "command": "python3 tools/deploy_copy.py",
+    "verify": [
+      "sh -c 'cd deploy/$ANVIL_WORK_ORDER_ID && python3 -m unittest discover -s tests'"
+    ],
+    "timeout_seconds": 300
   }
 }

@@ -1,0 +1,9 @@
+{
+  "schema": "anvil/envelope@1",
+  "from_station": "deployer",
+  "to_station": "observer",
+  "work_order_id": "wo-demo-deploy-001",
+  "artifact_path": "runs/wo-demo-deploy-001/deployer.output.md",
+  "status": "executed",
+  "created_at": "2026-10-28T13:45:20.674628+00:00"
+}
